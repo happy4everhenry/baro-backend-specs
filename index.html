@@ -258,13 +258,6 @@
         .dot-mock { background: var(--yellow); }
         .dot-planned { background: var(--text-dim); }
 
-        /* Responsive */
-        @media (max-width: 900px) {
-            .sidebar { display: none; }
-            .main { margin-left: 0; padding: 20px; }
-            .mapping-item { grid-template-columns: 1fr; }
-        }
-
         /* Scroll anchors offset for fixed sidebar */
         section[id] { scroll-margin-top: 20px; }
 
@@ -279,15 +272,176 @@
         details summary:hover { color: var(--text); }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
 
         .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+
+        /* Mobile hamburger button */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .mobile-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+            position: relative;
+        }
+        .mobile-menu-btn span::before,
+        .mobile-menu-btn span::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .mobile-menu-btn span::before { top: -6px; }
+        .mobile-menu-btn span::after { top: 6px; }
+        .mobile-menu-btn.open span { background: transparent; }
+        .mobile-menu-btn.open span::before { top: 0; transform: rotate(45deg); }
+        .mobile-menu-btn.open span::after { top: 0; transform: rotate(-45deg); }
+
+        /* Mobile overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 90;
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+        .sidebar-overlay.show { display: block; }
+
+        /* Responsive table wrapper */
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 16px 0;
+        }
+        .table-wrap table { margin: 0; min-width: 500px; }
+
+        /* ===== RESPONSIVE BREAKPOINTS ===== */
+
+        /* Tablet: 601px - 900px */
+        @media (max-width: 900px) {
+            .mobile-menu-btn { display: flex; }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 280px;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main {
+                margin-left: 0;
+                padding: 30px 24px;
+                max-width: 100%;
+            }
+            .hero { padding: 28px 24px; }
+            .hero h1 { font-size: 28px; }
+            .hero-stats { flex-wrap: wrap; gap: 20px; }
+            .hero-stat .num { font-size: 26px; }
+            h2 { font-size: 24px; margin: 36px 0 14px; }
+            h3 { font-size: 18px; margin: 24px 0 10px; }
+            .mapping-item { grid-template-columns: 1fr; gap: 8px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .flow { font-size: 11px; padding: 14px; }
+            section[id] { scroll-margin-top: 10px; }
+
+            /* Make all tables horizontally scrollable */
+            table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            thead { display: table; width: 100%; table-layout: fixed; }
+            /* Keep table readable */
+            thead th, tbody td { padding: 8px 10px; font-size: 12px; }
+        }
+
+        /* Mobile: 600px and below */
+        @media (max-width: 600px) {
+            .main { padding: 20px 14px; padding-top: 64px; }
+            .hero { padding: 20px 16px; margin-bottom: 24px; border-radius: 8px; }
+            .hero h1 { font-size: 22px; }
+            .hero p { font-size: 14px; }
+            .hero-stats { gap: 12px; justify-content: center; }
+            .hero-stat { min-width: 60px; }
+            .hero-stat .num { font-size: 22px; }
+            .hero-stat .label { font-size: 10px; }
+            h2 { font-size: 20px; margin: 28px 0 12px; }
+            h3 { font-size: 16px; margin: 20px 0 8px; }
+            h4 { font-size: 14px; margin: 16px 0 6px; }
+            p, li { font-size: 14px; }
+            .card { padding: 16px 14px; border-radius: 8px; }
+            .mapping-item { padding: 12px 14px; border-radius: 6px; }
+            .mapping-label { font-size: 13px; }
+            .mapping-detail { font-size: 12px; }
+            .mapping-detail .endpoint { font-size: 11px; }
+            code { font-size: 11px; padding: 1px 4px; word-break: break-all; }
+            pre { padding: 12px; font-size: 11px; }
+            .flow { font-size: 10px; padding: 12px; line-height: 1.6; }
+            .badge { font-size: 10px; padding: 2px 6px; }
+
+            /* Stack table cells on very small screens */
+            thead th, tbody td { padding: 6px 8px; font-size: 11px; }
+            thead th { font-size: 10px; }
+
+            /* Full-width details */
+            details summary { font-size: 14px; }
+
+            /* Footer */
+            footer { font-size: 11px !important; }
+        }
+
+        /* Small phone: 380px and below */
+        @media (max-width: 380px) {
+            .main { padding: 16px 10px; padding-top: 60px; }
+            .hero h1 { font-size: 19px; }
+            .hero-stats { gap: 8px; }
+            .hero-stat .num { font-size: 18px; }
+            h2 { font-size: 18px; }
+            h3 { font-size: 15px; }
+            .card { padding: 12px 10px; }
+        }
+
+        /* Touch-friendly tap targets */
+        @media (hover: none) and (pointer: coarse) {
+            .nav-link { padding: 10px 12px; font-size: 14px; }
+            details summary { padding: 12px 0; font-size: 15px; }
+            a { padding: 2px 0; }
+            tbody tr:active { background: rgba(88,166,255,0.08); }
+        }
+
+        /* Safe area for notched phones */
+        @supports (padding: env(safe-area-inset-bottom)) {
+            .main { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+            .sidebar { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+            .mobile-menu-btn { top: calc(12px + env(safe-area-inset-top)); }
+        }
     </style>
 </head>
 <body>
+<button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle navigation"><span></span></button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <div class="layout">
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
             <h1>BARO</h1>
             <small>Backend Specification v1.0</small>
@@ -3852,6 +4006,51 @@ function updateActiveNav() {
 
 window.addEventListener('scroll', updateActiveNav);
 updateActiveNav();
+
+// Mobile menu toggle
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebarOverlay');
+
+function openMenu() {
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    menuBtn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    menuBtn.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+menuBtn.addEventListener('click', function() {
+    if (sidebar.classList.contains('open')) {
+        closeMenu();
+    } else {
+        openMenu();
+    }
+});
+
+overlay.addEventListener('click', closeMenu);
+
+// Close sidebar on nav link click (mobile)
+navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        if (window.innerWidth <= 900) {
+            closeMenu();
+        }
+    });
+});
+
+// Close sidebar on resize to desktop
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 900) {
+        closeMenu();
+    }
+});
 </script>
 </body>
 </html>
